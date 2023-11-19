@@ -26,8 +26,13 @@ export class ImageGalleryItem extends Component {
     } = this.props;
 
     return (
-      <GalleryListItem onClick={this.openModal}>
-        <GalleryImg src={webformatURL} alt={tags} loading="lazy" />
+      <GalleryListItem>
+        <GalleryImg
+          src={webformatURL}
+          alt={tags}
+          loading="lazy"
+          onClick={this.openModal}
+        />
         <ImageModal
           isOpen={isModalOpen}
           onClose={this.closeModal}

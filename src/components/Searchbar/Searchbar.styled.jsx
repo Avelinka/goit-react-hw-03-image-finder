@@ -39,7 +39,8 @@ export const SearchBtn = styled.button`
   outline: none;
   padding: 0;
 
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
   }
 `;

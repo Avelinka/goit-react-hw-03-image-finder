@@ -18,7 +18,6 @@ export class App extends Component {
     page: 1,
     totalImages: 0,
     isLoading: false,
-    // error: true,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -28,22 +27,26 @@ export class App extends Component {
     ) {
       try {
         this.setState({ isLoading: true });
+
+        const trimmedQuery = this.state.query.split('/').pop().trim();
+
+        if (trimmedQuery === '') {
+          toast.error('Please enter key words for search');
+          return;
+        }
+
         const initialParams = {
-          q: this.state.query.split('/').pop().trim(),
+          q: trimmedQuery,
           image_type: 'photo',
           orientation: 'horizontal',
           page: this.state.page,
           per_page: 12,
         };
         const initialImages = await fetchImages(initialParams);
-        console.log(initialImages);
         if (initialImages.total === 0) {
           toast.error(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          return;
-        } else if (initialParams.q.trim() === '') {
-          toast.error('Please enter key words for search');
           return;
         } else {
           this.setState(prevState => ({
@@ -53,8 +56,7 @@ export class App extends Component {
           this.setState({ error: false });
         }
       } catch (error) {
-        toast.error('Please try reloading this page');
-        // this.setState({ error: true });
+        toast.error('Oops! Something went wrong. Please try again later.');
       } finally {
         this.setState({ isLoading: false });
       }
